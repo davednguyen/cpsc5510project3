@@ -63,13 +63,17 @@ from entity import Entity
 from student_utilities import to_layer_2
 
 
-INFINITY = float('inf')
-NUM_ENTITIES = 4
+Infinity = float('inf')#set unreachable nodes
+Entities = 4 #total 4 entities 
 
 # def printOut(node):
 #     print('entity ' + str(node) + ': initializing')
 #     print('node:' + str(node))
 
+##
+#private helper method to support for printout
+#follow printout format as in example of the requirements
+##
 def printOut(node, distance_table, costs):
     print(f"entity {node}: initializing")
     print(f"node: {node}")
@@ -77,7 +81,10 @@ def printOut(node, distance_table, costs):
     for row in distance_table:
         print(row)
 
-
+##
+# private method return the cost of each note to the all its neighbors
+# provide distant vector costs of each node for calculation
+##
 def node_neighbors(node_id):
     link_costs = {
         #cost from node 0, 1, 2, 3 to others
@@ -86,38 +93,48 @@ def node_neighbors(node_id):
         2: {0: 3, 1: 1, 3: 2},
         3: {0: 7, 2: 2}
     }
+    #return list of costs for each node ID
     return link_costs[node_id]
 
-
+##
+#method to setup link costs
+#initialzie distance table
+##
 def common_init(self):
+    #initialize list of nodes (currently)
+    self.min_costs = [Infinity] * Entities
+    #set starting cost = 0 where cost of a node to itself
+    self.min_costs[self.node] = 0 
     
-    self.min_costs = [INFINITY] * NUM_ENTITIES
-    self.min_costs[self.node] = 0
-    allCost = node_neighbors(self.node);
-    cost = []
-    cost.append(0)
+    # allCost = node_neighbors(self.node);
+    # cost = []
+    # cost.append(0)
+    #get list all costs to its neghbors 
     self.neighbors = node_neighbors(self.node)    
 
     for dest in self.neighbors:
         #print("next destination: " + str(dest))
         self.distance_table[dest][dest] = self.neighbors[dest]
         self.min_costs[dest] = self.neighbors[dest]
-        cost.append(allCost[dest])
+        #cost.append(allCost[dest])
+    #call printout helper mesthod to display the steps
     printOut(self.node, self.distance_table, self.min_costs)
-    #print(cost)
+
     # Send initial min_costs to neighbors
     for neighbor in self.neighbors:
         to_layer_2(self.node, neighbor, self.min_costs)
 
-
+##
+#update method for delivery packet 
+##
 def common_update(self, packet):
     updated = False
     src = packet.src
 
-    for dest in range(NUM_ENTITIES):
+    for dest in range(Entities):
         if dest == self.node:
             continue
-        cost_to_src = self.neighbors.get(src, INFINITY)
+        cost_to_src = self.neighbors.get(src, Infinity)
         new_cost = cost_to_src + packet.mincost[dest]
         #print("new common update...")
 
@@ -126,7 +143,7 @@ def common_update(self, packet):
             updated = True
 
     if updated:
-        for dest in range(NUM_ENTITIES):
+        for dest in range(Entities):
             self.min_costs[dest] = min(self.distance_table[dest])
         #print("updated....")
         for neighbor in self.neighbors:
@@ -175,8 +192,7 @@ class Entity2(Entity):
         common_update(self, packet)
 
     def link_cost_change(self, to_entity, new_cost):
-
-        pass
+        pass # Optional for extra credit
 
 
 class Entity3(Entity):
@@ -191,4 +207,4 @@ class Entity3(Entity):
         common_update(self, packet)
 
     def link_cost_change(self, to_entity, new_cost):
-        pass
+        pass # Optional for extra credit
