@@ -25,14 +25,14 @@
 # # #     pass  # FIXME
 
 
-# # # def common_link_cost_change(self, to_entity, new_cost):
-# # #     """
-# # #     You may call a common function like this from your individual 
-# # #     link_cost_change methods if you want.
-# # #     Note this is only for extra credit and only required for Entity0 and 
-# # #     Entity1.
-# # #     """
-# # #     pass  # FIXME (optional)
+def common_link_cost_change(self, to_entity, new_cost):
+    """
+    You may call a common function like this from your individual 
+    link_cost_change methods if you want.
+    Note this is only for extra credit and only required for Entity0 and 
+    Entity1.
+    """
+    pass  # FIXME (optional)
 
 
 # # # class Entity0(Entity):
@@ -113,6 +113,12 @@ def travel_cost(node_id):
 #initialzie distance table
 ##
 def common_init(self):
+    # # #     """
+    # # #     You may call a common function like this from your individual __init__ 
+    # # #     methods if you want.
+    # # #     """
+    # # #     pass  #  (optional)
+
     # #initialize list of nodes (currently)
     # self.min_costs = [Infinity] * Entities
     # #set starting cost = 0 where cost of a node to itself
@@ -151,6 +157,11 @@ def common_init(self):
 #update method for delivery packet 
 ##
 def common_update(self, packet):
+    # # #     """
+    # # #     You may call a common function like this from your individual update 
+    # # #     methods if you want.
+    # # #     """
+    # # #     pass  #
     # updated = False
     # src = packet.src
 
@@ -200,6 +211,7 @@ def common_update(self, packet):
 
 
 class Entity0(Entity):
+    # # #     """Router running a DV algorithm at node 0"""
     def __init__(self):
         super().__init__()
         self.current = 0
@@ -219,6 +231,7 @@ class Entity0(Entity):
 
 
 class Entity1(Entity):
+    # # #     """Router running a DV algorithm at node 1"""
     def __init__(self):
         super().__init__()
         self.node = 1
@@ -238,6 +251,7 @@ class Entity1(Entity):
 
 
 class Entity2(Entity):
+    # # #     """Router running a DV algorithm at node 2"""
     def __init__(self):
         super().__init__()
         self.node = 2
@@ -256,6 +270,7 @@ class Entity2(Entity):
 
 
 class Entity3(Entity):
+    # # #     """Router running a DV algorithm at node 3"""
     def __init__(self):
         super().__init__()
         self.node = 3
