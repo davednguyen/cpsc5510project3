@@ -33,21 +33,6 @@ def printOutCostInitalizing(node, distance_table):
     print()
 
 ##
-# private method return the cost of each node to the all its neighbors
-# provide distant vector costs of each node for calculation
-##
-def node_neighbors(node_id):
-    #cost from node 0, 1, 2, 3 to others
-    link_costs = {       
-        0: {1: 1, 2: 3, 3: 7},
-        1: {0: 1, 2: 1},
-        2: {0: 3, 1: 1, 3: 2},
-        3: {0: 7, 2: 2}
-    }
-    #return list of costs for each node ID
-    return link_costs[node_id]
-
-##
 #private method return cost of each node ID as in array
 ##
 def travel_cost(node_id):
