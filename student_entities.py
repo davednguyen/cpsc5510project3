@@ -116,7 +116,9 @@ def common_update(self, packet):
         #print out no change note
         printOutNote(self.node, self.__str__())
 
-
+##
+# run cost for entity 0
+##
 class Entity0(Entity):
     # # #     """Router running a DV algorithm at node 0"""
     def __init__(self):
@@ -133,7 +135,9 @@ class Entity0(Entity):
     def link_cost_change(self, to_entity, new_cost):
         pass  # Optional for extra credit
 
-
+##
+# run cost for entity 1
+##
 class Entity1(Entity):
     # # #     """Router running a DV algorithm at node 1"""
     def __init__(self):
@@ -150,7 +154,9 @@ class Entity1(Entity):
     def link_cost_change(self, to_entity, new_cost):
         pass  # Optional for extra credit
 
-
+##
+# run cost for entity 2
+##
 class Entity2(Entity):
     # # #     """Router running a DV algorithm at node 2"""
     def __init__(self):
@@ -167,7 +173,9 @@ class Entity2(Entity):
     def link_cost_change(self, to_entity, new_cost):
         pass # Optional for extra credit
 
-
+##
+# run cost for entity 3
+##
 class Entity3(Entity):
     # # #     """Router running a DV algorithm at node 3"""
     def __init__(self):
