@@ -1,28 +1,12 @@
 # # # """
 # # # CPSC 5510, Seattle University, Project #3
-# # # :Author: student # FIXME fill in _your_name
-# # # :Version: s23
+# # # :Author: David Nguyen
+# # # :Version: 
 # # # """
 
 # # # # YOU MAY NOT ADD ANY IMPORTS
-# # # from entity import Entity
-# # # from student_utilities import to_layer_2
-
-
-# # # def common_init(self):
-# # #     """
-# # #     You may call a common function like this from your individual __init__ 
-# # #     methods if you want.
-# # #     """
-# # #     pass  # FIXME (optional)
-
-
-# # # def common_update(self, packet):
-# # #     """
-# # #     You may call a common function like this from your individual update 
-# # #     methods if you want.
-# # #     """
-# # #     pass  # FIXME
+from entity import Entity
+from student_utilities import to_layer_2
 
 
 def common_link_cost_change(self, to_entity, new_cost):
@@ -34,62 +18,27 @@ def common_link_cost_change(self, to_entity, new_cost):
     """
     pass  # FIXME (optional)
 
-
-# # # class Entity0(Entity):
-# # #     """Router running a DV algorithm at node 0"""
-# # #     pass  # FIXME
-
-
-# # # class Entity1(Entity):
-# # #     """Router running a DV algorithm at node 1"""
-# # #     pass  # FIXME
-
-
-# # # class Entity2(Entity):
-# # #     """Router running a DV algorithm at node 2"""
-# # #     pass  # FIXME
-
-
-# # # class Entity3(Entity):
-# # #     """Router running a DV algorithm at node 3"""
-# # #     pass  # FIXME
-# # """
-# CPSC 5510, Seattle University, Project #3
-# :Author: David Nguyen
-# :Version: s23
-# """
-
-from entity import Entity
-from student_utilities import to_layer_2
-
-
-Infinity = float('inf')#set unreachable nodes
+Infinity = float('INF')#set unreachable nodes
 Entities = 4 #total 4 entities 
-
-# def printOut(node):
-#     print('entity ' + str(node) + ': initializing')
-#     print('node:' + str(node))
 
 ##
 #private helper method to support for printout
 #follow printout format as in example of the requirements
 ##
-def printOut(node, distance_table, costs):
+def printOutCostInitalizing(node, distance_table):
     print(f"entity {node}: initializing")
     print(f"node: {node}")
-    print(costs)
-    # for row in distance_table:
-    #     print(row)
-    for i in range(3):
-        print(distance_table[i])
+    for i in distance_table:
+       print(i)
+    print()
 
 ##
-# private method return the cost of each note to the all its neighbors
+# private method return the cost of each node to the all its neighbors
 # provide distant vector costs of each node for calculation
 ##
 def node_neighbors(node_id):
-    link_costs = {
-        #cost from node 0, 1, 2, 3 to others
+    #cost from node 0, 1, 2, 3 to others
+    link_costs = {       
         0: {1: 1, 2: 3, 3: 7},
         1: {0: 1, 2: 1},
         2: {0: 3, 1: 1, 3: 2},
@@ -98,8 +47,11 @@ def node_neighbors(node_id):
     #return list of costs for each node ID
     return link_costs[node_id]
 
+##
+#private method return cost of each node ID as in array
+##
 def travel_cost(node_id):
-            # Set initial link costs based on node ID
+    # Set initial link costs based on node ID
     link_costs = {
         0: [0, 1, 3, 7],
         1: [1, 0, 1, Infinity],
@@ -109,6 +61,21 @@ def travel_cost(node_id):
     return link_costs[node_id]
 
 ##
+# print out changing parts
+##
+def printOut(change):
+    print("changes based on update")
+    print(change)
+    print("sending mincost update to neighbors")
+    print()
+
+##
+# print out no change notes
+##
+def printOutNote(node, selfNode):
+    print("no change in node {}, so nothing to do".format(node))
+    print(selfNode)
+##
 #method to setup link costs
 #initialzie distance table
 ##
@@ -117,37 +84,14 @@ def common_init(self):
     # # #     You may call a common function like this from your individual __init__ 
     # # #     methods if you want.
     # # #     """
-    # # #     pass  #  (optional)
-
-    # #initialize list of nodes (currently)
-    # self.min_costs = [Infinity] * Entities
-    # #set starting cost = 0 where cost of a node to itself
-    # self.min_costs[self.node] = 0 
-    
-    # #allCost = node_neighbors(self.node);
-    # cost = []
-    # cost.append(0)
-    # #get list all costs to its neghbors 
-    # self.neighbors = node_neighbors(self.node)    
-
-    # for dest in self.neighbors:
-    # #for dest in range(Entities):
-    #     #print("next destination: " + str(dest))
-    #     self.distance_table[dest][dest] = self.neighbors[dest]
-    #     self.min_costs[dest] = self.neighbors[dest]
-    #     #cost.append(allCost[dest])
-    # #call printout helper mesthod to display the steps
-    # printOut(self.node, self.distance_table, self.min_costs)
-
-    # # Send initial min_costs to neighbors
-    # for neighbor in self.neighbors:
-    #     to_layer_2(self.node, neighbor, self.min_costs)
-    print("entity: initializing".format(self.current))
+    # # #     pass  #  (optional)    
     Entity.__init__(self)
     self.node = self.current
     for i in range(Entities):
         self.distance_table[self.node][i] = self.cost[i]
-    print(self.__str__())
+    #print out initalizing parts and costs
+    printOutCostInitalizing(self.current, self.distance_table)
+
     for i in range(Entities):
         if i != self.node and self.distance_table[self.node][i] != Infinity:
             to_layer_2(self.node, i, self.sendcost)
@@ -162,26 +106,6 @@ def common_update(self, packet):
     # # #     methods if you want.
     # # #     """
     # # #     pass  #
-    # updated = False
-    # src = packet.src
-
-    # for dest in range(Entities):
-    #     if dest == self.node:
-    #         continue
-    #     cost_to_src = self.neighbors.get(src, Infinity)
-    #     new_cost = cost_to_src + packet.mincost[dest]
-    #     #print("new common update...")
-
-    #     if new_cost < self.distance_table[dest][src]:
-    #         self.distance_table[dest][src] = new_cost
-    #         updated = True
-
-    # if updated:
-    #     for dest in range(Entities):
-    #         self.min_costs[dest] = min(self.distance_table[dest])
-    #     #print("updated....")
-    #     for neighbor in self.neighbors:
-    #         to_layer_2(self.node, neighbor, self.min_costs)
     change = False
     srcnode = packet.src
     thisnode = packet.dest
@@ -198,16 +122,14 @@ def common_update(self, packet):
             self.sendcost[j] = temp
 
     if change:
-        print("changes based on update")
-        print(self.__str__())
-        print("sending mincost update to neighbors")
-        print()
+        #print out change
+        printOut(self.__str__())
         for i in range(Entities):
             if i != self.node and self.cost[i] != Infinity:
                 to_layer_2(self.node, i, self.sendcost)
     else:
-        print("no change in node{}, so nothing to do".format(self.node))
-        print(self.__str__())
+        #print out no change note
+        printOutNote(self.node, self.__str__())
 
 
 class Entity0(Entity):
@@ -217,13 +139,10 @@ class Entity0(Entity):
         self.current = 0
         self.node = 0
         self.cost = travel_cost(0)
-        #print(travel_cost(0))
         self.sendcost = travel_cost(0)
-        #printOut(0)
         common_init(self)
 
     def update(self, packet):
-        #print("called udpated method")
         common_update(self, packet)
 
     def link_cost_change(self, to_entity, new_cost):
@@ -237,13 +156,10 @@ class Entity1(Entity):
         self.node = 1
         self.current = 1
         self.cost = travel_cost(1)
-        #print(travel_cost(1))
         self.sendcost = travel_cost(1)
-        #printOut(1)
         common_init(self)
 
     def update(self, packet):
-        #print("called udpated method")
         common_update(self, packet)
 
     def link_cost_change(self, to_entity, new_cost):
@@ -257,12 +173,10 @@ class Entity2(Entity):
         self.node = 2
         self.current = 2
         self.cost = travel_cost(2)
-        #print(travel_cost(2))
         self.sendcost = travel_cost(2)
         common_init(self)
 
     def update(self, packet):
-        #print("called udpated method")
         common_update(self, packet)
 
     def link_cost_change(self, to_entity, new_cost):
@@ -276,13 +190,10 @@ class Entity3(Entity):
         self.node = 3
         self.current = 3
         self.cost = travel_cost(3)
-        #print(travel_cost(3))
         self.sendcost = travel_cost(3)
-        #printOut(3)
         common_init(self)
 
     def update(self, packet):
-        #print("called udpated method")
         common_update(self, packet)
 
     def link_cost_change(self, to_entity, new_cost):
